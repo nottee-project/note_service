@@ -1,0 +1,16 @@
+{
+  "env": "local",
+  "app_config": {
+    "app_name": "go-note-service",
+    "http_server": {
+      "port": 8080
+    }
+  },
+  "database": {
+    "host": "postgres",
+    "port": 5432,
+    "database": "note",
+    "user": "feitan",
+    "pass": "gfhjkm1S"
+  }
+}

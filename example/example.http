@@ -1,0 +1,39 @@
+### listNotes
+
+curl -X POST http://localhost:8080/note/list \
+-H "Content-Type: application/json" \
+-d '{
+    "completed": true,
+    "order": "desc",
+    "sort_by": "title"
+}'
+
+### createNote
+
+curl -X POST http://localhost:8080/note/create \
+-H "Content-Type: application/json" \
+-d '{
+    "title": "title1",
+    "body": "body1",
+    "completed": false
+}'
+
+### getNote
+
+curl -X GET http://localhost:8080/note/get/
+
+### updateNote
+
+curl -X PUT http://localhost:8080/note/update/ \
+-H "Content-Type: application/json" \
+-d '{
+    "title": "Updated Title",
+    "body": "Updated Body",
+    "completed": true
+}'
+
+
+### deleteNote
+
+curl -X DELETE http://localhost:8080/note/delete/1
+
