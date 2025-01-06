@@ -24,6 +24,10 @@ func New(cfg config.Database) (*Store, error) {
 		return nil, errors.Wrap(err, "sqlx.Open")
 	}
 
+	if err := db.Ping(); err != nil {
+		return nil, errors.Wrap(err, "db.Ping failed")
+	}
+
 	return &Store{
 		DB: db,
 	}, nil

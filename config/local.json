@@ -9,7 +9,7 @@
   "database": {
     "host": "postgres",
     "port": 5432,
-    "database": "note",
+    "database": "feitan",
     "user": "feitan",
     "pass": "gfhjkm1S"
   }

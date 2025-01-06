@@ -9,6 +9,12 @@ import (
 )
 
 func (t *NoteHandler) UpdateNote(c echo.Context) error {
+	// userID, ok := c.Get("user_id").(string)
+	// if !ok || userID == "" {
+	// 	return c.JSON(http.StatusUnauthorized, map[string]string{
+	// 		"error": "Unauthorized",
+	// 	})
+	// }
 
 	noteID := c.Param("id")
 	if noteID == "" {

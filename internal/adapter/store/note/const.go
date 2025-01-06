@@ -3,9 +3,10 @@ package tm
 import "github.com/pkg/errors"
 
 const (
-	tableNameNote = "note"
+	tableNameNotes = "notes"
 
 	fieldNameNoteId    = "id"
+	fieldNameUserId    = "user_id"
 	fieldNameTitle     = "title"
 	fieldNameBody      = "body"
 	fieldNameCreatedAt = "created_at"

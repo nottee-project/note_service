@@ -11,11 +11,20 @@ import (
 func (t *NoteHandler) ListNotes(c echo.Context) error {
 	var params models.ListNotesParams
 
+	userId, ok := c.Get("user_id").(string)
+	if !ok || userId == "" {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"error": "Unauthorized",
+		})
+	}
+
 	if err := c.Bind(&params); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{
 			"error": "Invalid request body",
 		})
 	}
+
+	params.UserId = userId
 
 	notes, err := t.NoteSrv.ListNotes(context.Background(), params)
 	if err != nil {

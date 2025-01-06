@@ -6,6 +6,8 @@ import (
 	"os"
 
 	"github.com/labstack/echo/v4"
+	"github.com/nottee-project/note_service/internal/config"
+
 
 	router "github.com/nottee-project/note_service/internal/delivery/rest"
 )
@@ -17,9 +19,17 @@ func main() {
 	}
 	log.Printf("Current working directory: %s", dir)
 
+	cfg := &config.Config{
+		AuthServiceURL: os.Getenv("AUTH_SERVICE_URL"),
+	}
+
+	if cfg.AuthServiceURL == "" {
+		log.Fatal("AUTH_SERVICE_URL is not set")
+	}
+
 	e := echo.New()
 
-	if err := router.RegisterRoutes(e); err != nil {
+	if err := router.RegisterRoutes(e, cfg.AuthServiceURL); err != nil {
 		e.Logger.Fatalf("Error registering routes: %v", err)
 	}
 

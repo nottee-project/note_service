@@ -9,9 +9,9 @@ import (
 	mw_auth "github.com/nottee-project/note_service/internal/delivery/rest/middleware"
 )
 
-const prefix = "api/v1"
+const prefix = "/api/v1"
 
-func RegisterRoutes(e *echo.Echo) error {
+func RegisterRoutes(e *echo.Echo, authServiceURL string) error {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	noteSrv, err := bootstrap.CreateNoteService()
@@ -24,11 +24,11 @@ func RegisterRoutes(e *echo.Echo) error {
 
 	noteHandler := handler.NewNoteHandler(noteSrv)
 
-	n.POST("/create", noteHandler.CreateNote)
-	n.PUT("/update/:id", noteHandler.UpdateNote)
-	n.POST("/list", noteHandler.ListNotes)
-	n.GET("/get/:id", noteHandler.GetNote)
-	n.DELETE("/delete/:id", noteHandler.DeleteNote)
+	n.POST("", noteHandler.CreateNote)
+	n.PUT("/:id", noteHandler.UpdateNote)
+	n.GET("", noteHandler.ListNotes)
+	n.GET("/:id", noteHandler.GetNote)
+	n.DELETE("/:id", noteHandler.DeleteNote)
 
 	// e.POST("/webhook", handler.TelegramWebhookHandler)
 

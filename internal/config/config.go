@@ -11,11 +11,12 @@ import (
 )
 
 type Config struct {
-	Env            string     `json:"env" env-default:"local"`
-	GRPC           GRPCConfig `json:"grpc"`
-	MigrationsPath string
-	Redis          Redis    	`json:"redis"`
-	Database       Database 	`json:"database"`
+	Env string `json:"env" env-default:"local"`
+	// GRPC           GRPCConfig `json:"grpc"`
+	// MigrationsPath string
+	AuthServiceURL string
+	Redis          Redis    `json:"redis"`
+	Database       Database `json:"database"`
 }
 
 type GRPCConfig struct {
@@ -38,7 +39,6 @@ func (config *Config) readConfig() error {
 		configPath = "./config/local.json"
 	}
 
-
 	fmt.Printf("Using CONFIG_PATH: %s\n", configPath)
 
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
@@ -53,4 +53,3 @@ func (config *Config) readConfig() error {
 	fmt.Printf("Configuration loaded successfully from: %s\n", configPath)
 	return nil
 }
-

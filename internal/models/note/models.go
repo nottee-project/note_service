@@ -6,6 +6,7 @@ import (
 
 type Note struct {
 	Id        string    `db:"id" json:"id"`
+	UserId    string    `db:"user_id" json:"user_id"`
 	Title     string    `db:"title" json:"title"`
 	Body      string    `db:"body" json:"body"`
 	CreatedAt time.Time `db:"created_at" json:"created_at"`
@@ -13,9 +14,9 @@ type Note struct {
 }
 
 type CreateNoteParams struct {
-	Title     string
-	Body      string
-	Completed bool
+	UserId string `json:"user_id"`
+	Title  string `json:"title"`
+	Body   string `json:"body"`
 }
 
 type Notes struct {
@@ -23,20 +24,20 @@ type Notes struct {
 }
 
 type ListNotesParams struct {
-	Completed bool
+	UserId string `json:"user_id"`
 }
 
 type GetNoteResponse struct {
-	Id        string
-	Title     string
-	Body      string
-	Completed bool
+	ID        string `db:"id"` 
+	UserID    string `db:"user_id"` 
+	Title     string `db:"title"`   
+	Body      string `db:"body"`
 }
 
 type UpdateNoteResponse struct {
 	Id        string
+	UserId    string
 	Title     string
 	Body      string
-	Completed bool
-	UpdatedAt  time.Time
+	UpdatedAt time.Time
 }

@@ -8,14 +8,21 @@ import (
 )
 
 func (t *NoteHandler) GetNote(c echo.Context) error {
-	noteID := c.Param("id")
-	if noteID == "" {
+	userId, ok := c.Get("user_id").(string)
+	if !ok || userId == "" {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"error": "Unauthorized",
+		})
+	}
+
+	noteId := c.Param("id")
+	if noteId == "" {
 		return c.JSON(http.StatusBadRequest, map[string]string{
 			"error": "Note ID is required",
 		})
 	}
 
-	note, err := t.NoteSrv.GetNote(context.Background(), noteID)
+	note, err := t.NoteSrv.GetNote(context.Background(), noteId, userId)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": "Failed to get note",
