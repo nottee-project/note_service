@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS notes (
     user_id UUID NOT NULL,
     title TEXT NOT NULL,
     body TEXT,
-    completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
