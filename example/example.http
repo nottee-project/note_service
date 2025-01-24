@@ -1,6 +1,6 @@
-### listNotes
+### listTasks
 
-curl -X POST http://localhost:8080/note/list \
+curl -X POST http://localhost:8080/task \
 -H "Content-Type: application/json" \
 -d '{
     "completed": true,
@@ -8,9 +8,9 @@ curl -X POST http://localhost:8080/note/list \
     "sort_by": "title"
 }'
 
-### createNote
+### createTask
 
-curl -X POST http://localhost:8080/note/create \
+curl -X POST http://localhost:8080/task \
 -H "Content-Type: application/json" \
 -d '{
     "title": "title1",
@@ -18,13 +18,13 @@ curl -X POST http://localhost:8080/note/create \
     "completed": false
 }'
 
-### getNote
+### getTask
 
-curl -X GET http://localhost:8080/note/get/
+curl -X GET http://localhost:8080/task/1
 
-### updateNote
+### updateTask
 
-curl -X PUT http://localhost:8080/note/update/ \
+curl -X PUT http://localhost:8080/task/1 \
 -H "Content-Type: application/json" \
 -d '{
     "title": "Updated Title",
@@ -33,7 +33,7 @@ curl -X PUT http://localhost:8080/note/update/ \
 }'
 
 
-### deleteNote
+### deleteTask
 
-curl -X DELETE http://localhost:8080/note/delete/1
+curl -X DELETE http://localhost:8080/task/1
 

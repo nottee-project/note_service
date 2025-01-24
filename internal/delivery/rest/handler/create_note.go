@@ -6,10 +6,10 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	models "github.com/nottee-project/note_service/internal/models/note"
+	models "github.com/nottee-project/task_service/internal/models/task"
 )
 
-func (t *NoteHandler) CreateNote(c echo.Context) error {
+func (t *TaskHandler) CreateTask(c echo.Context) error {
 	userId, ok := c.Get("user_id").(string)
 	if !ok || userId == "" {
 		log.Println("user_id is missing or invalid")
@@ -20,7 +20,7 @@ func (t *NoteHandler) CreateNote(c echo.Context) error {
 
 	log.Printf("user_id: %s", userId)
 
-	var params models.CreateNoteParams
+	var params models.CreateTaskParams
 	if err := c.Bind(&params); err != nil {
 		log.Printf("Failed to bind request: %v", err)
 		return c.JSON(http.StatusBadRequest, map[string]string{
@@ -28,7 +28,7 @@ func (t *NoteHandler) CreateNote(c echo.Context) error {
 		})
 	}
 
-	log.Printf("CreateNoteParams: %+v", params)
+	log.Printf("CreateTaskParams: %+v", params)
 
 	if params.Title == "" {
 		return c.JSON(http.StatusBadRequest, map[string]string{
@@ -37,15 +37,15 @@ func (t *NoteHandler) CreateNote(c echo.Context) error {
 	}
 
 	params.UserId = userId
-	log.Printf("Final CreateNoteParams: %+v", params)
+	log.Printf("Final CreateTaskParams: %+v", params)
 
-	note, err := t.NoteSrv.CreateNote(context.Background(), params)
+	task, err := t.TaskSrv.CreateTask(context.Background(), params)
 	if err != nil {
-		log.Printf("Failed to create note: %v", err)
+		log.Printf("Failed to create task: %v", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{
-			"error": "Failed to create note",
+			"error": "Failed to create task",
 		})
 	}
 
-	return c.JSON(http.StatusCreated, note)
+	return c.JSON(http.StatusCreated, task)
 }

@@ -3,7 +3,7 @@ services:
     build:
       context: ../
       dockerfile: docker/dockerfile
-    container_name: go-note-service
+    container_name: go-task-service
     ports:
       - "8080:8080"
     volumes:

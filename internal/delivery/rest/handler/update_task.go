@@ -5,10 +5,10 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	models "github.com/nottee-project/note_service/internal/models/note"
+	models "github.com/nottee-project/task_service/internal/models/task"
 )
 
-func (t *NoteHandler) UpdateNote(c echo.Context) error {
+func (t *TaskHandler) UpdateTask(c echo.Context) error {
 	// userID, ok := c.Get("user_id").(string)
 	// if !ok || userID == "" {
 	// 	return c.JSON(http.StatusUnauthorized, map[string]string{
@@ -16,28 +16,28 @@ func (t *NoteHandler) UpdateNote(c echo.Context) error {
 	// 	})
 	// }
 
-	noteID := c.Param("id")
-	if noteID == "" {
+	taskID := c.Param("id")
+	if taskID == "" {
 		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": "Note ID is required",
+			"error": "Task ID is required",
 		})
 	}
 
-	var params models.Note
+	var params models.Task
 	if err := c.Bind(&params); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{
 			"error": "Invalid request body",
 		})
 	}
 
-	params.Id = noteID
+	params.Id = taskID
 
-	note, err := t.NoteSrv.UpdateNote(context.Background(), params)
+	task, err := t.TaskSrv.UpdateTask(context.Background(), params)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
-			"error": "Failed to update note",
+			"error": "Failed to update task",
 		})
 	}
 
-	return c.JSON(http.StatusOK, note)
+	return c.JSON(http.StatusOK, task)
 }

@@ -1,5 +1,5 @@
 composefile = ./docker/docker-compose.yml
-project = note-service
+project = task-service
 env = .env
 
 dc-up:

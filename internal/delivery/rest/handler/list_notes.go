@@ -5,11 +5,11 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	models "github.com/nottee-project/note_service/internal/models/note"
+	models "github.com/nottee-project/task_service/internal/models/task"
 )
 
-func (t *NoteHandler) ListNotes(c echo.Context) error {
-	var params models.ListNotesParams
+func (t *TaskHandler) ListTasks(c echo.Context) error {
+	var params models.ListTasksParams
 
 	userId, ok := c.Get("user_id").(string)
 	if !ok || userId == "" {
@@ -26,12 +26,12 @@ func (t *NoteHandler) ListNotes(c echo.Context) error {
 
 	params.UserId = userId
 
-	notes, err := t.NoteSrv.ListNotes(context.Background(), params)
+	tasks, err := t.TaskSrv.ListTasks(context.Background(), params)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
-			"error": "Failed to retrieve notes",
+			"error": "Failed to retrieve tasks",
 		})
 	}
 
-	return c.JSON(http.StatusOK, notes)
+	return c.JSON(http.StatusOK, tasks)
 }

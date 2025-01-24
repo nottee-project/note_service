@@ -6,10 +6,9 @@ import (
 	"os"
 
 	"github.com/labstack/echo/v4"
-	"github.com/nottee-project/note_service/internal/config"
+	"github.com/nottee-project/task_service/internal/config"
 
-
-	router "github.com/nottee-project/note_service/internal/delivery/rest"
+	router "github.com/nottee-project/task_service/internal/delivery/rest"
 )
 
 func main() {

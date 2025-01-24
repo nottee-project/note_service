@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (t *NoteHandler) GetNote(c echo.Context) error {
+func (t *TaskHandler) GetTask(c echo.Context) error {
 	userId, ok := c.Get("user_id").(string)
 	if !ok || userId == "" {
 		return c.JSON(http.StatusUnauthorized, map[string]string{
@@ -15,19 +15,19 @@ func (t *NoteHandler) GetNote(c echo.Context) error {
 		})
 	}
 
-	noteId := c.Param("id")
-	if noteId == "" {
+	taskId := c.Param("id")
+	if taskId == "" {
 		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": "Note ID is required",
+			"error": "Task ID is required",
 		})
 	}
 
-	note, err := t.NoteSrv.GetNote(context.Background(), noteId, userId)
+	task, err := t.TaskSrv.GetTask(context.Background(), taskId, userId)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
-			"error": "Failed to get note",
+			"error": "Failed to get task",
 		})
 	}
 
-	return c.JSON(http.StatusCreated, note)
+	return c.JSON(http.StatusCreated, task)
 }

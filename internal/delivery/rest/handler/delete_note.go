@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (t *NoteHandler) DeleteNote(c echo.Context) error {
+func (t *TaskHandler) DeleteTask(c echo.Context) error {
 	userId, ok := c.Get("user_id").(string)
 	if !ok || userId == "" {
 		return c.JSON(http.StatusUnauthorized, map[string]string{
@@ -15,21 +15,21 @@ func (t *NoteHandler) DeleteNote(c echo.Context) error {
 		})
 	}
 
-	noteId := c.Param("id")
-	if noteId == "" {
+	taskId := c.Param("id")
+	if taskId == "" {
 		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": "Note ID is required",
+			"error": "Task ID is required",
 		})
 	}
 
-	err := t.NoteSrv.DeleteNote(context.Background(), noteId, userId)
+	err := t.TaskSrv.DeleteTask(context.Background(), taskId, userId)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
-			"error": "Failed to delete note",
+			"error": "Failed to delete task",
 		})
 	}
 
 	return c.JSON(http.StatusOK, map[string]string{
-		"message": "Note deleted successfully",
+		"message": "Task deleted successfully",
 	})
 }
