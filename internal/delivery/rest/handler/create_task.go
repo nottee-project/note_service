@@ -5,13 +5,14 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	models "github.com/nottee-project/task_service/internal/models/task"
 )
 
 func (t *TaskHandler) CreateTask(c echo.Context) error {
-	userId, ok := c.Get("user_id").(string)
-	if !ok || userId == "" {
+	userId, ok := c.Get("user_id").(uuid.UUID)
+	if !ok || userId == uuid.Nil {
 		log.Println("user_id is missing or invalid")
 		return c.JSON(http.StatusUnauthorized, map[string]string{
 			"error": "Unauthorized",
