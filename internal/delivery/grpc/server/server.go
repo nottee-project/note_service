@@ -11,6 +11,7 @@ import (
 type serverAPI struct {
 	ssov1.UnimplementedTaskServiceServer
 	taskService TaskService
+	repo        TaskRepository
 }
 
 func Register(gRPCServer *grpc.Server, taskService TaskService) {
@@ -18,31 +19,10 @@ func Register(gRPCServer *grpc.Server, taskService TaskService) {
 	log.Println("TaskService gRPC server registered")
 }
 
-
-
-func (s *serverAPI) CreateTask(ctx context.Context, req *ssov1.CreateTaskRequest) (*ssov1.CreateTaskResponse, error) {
-	log.Println("CreateTask called with:", req)
-	return s.taskService.CreateTask(ctx, req)
+type TaskService interface {
+	CreateTask(ctx context.Context, task *ssov1.CreateTaskRequest) (*ssov1.CreateTaskResponse, error)
+	ListTasks(ctx context.Context, tsaskList *ssov1.ListTasksRequest) (*ssov1.ListTasksResponse, error)
+	GetTask(ctx context.Context, task *ssov1.GetTaskRequest) (*ssov1.GetTaskResponse, error)
+	UpdateTask(ctx context.Context, task *ssov1.UpdateTaskRequest) (*ssov1.UpdateTaskResponse, error)
+	DeleteTask(ctx context.Context, task *ssov1.DeleteTaskRequest) (*ssov1.DeleteTaskResponse, error)
 }
-
-func (s *serverAPI) ListTasks(ctx context.Context, req *ssov1.ListTasksRequest) (*ssov1.ListTasksResponse, error) {
-	log.Println("ListTasks called")
-	return s.taskService.ListTasks(ctx, req)
-}
-
-func (s *serverAPI) GetTask(ctx context.Context, req *ssov1.GetTaskRequest) (*ssov1.GetTaskResponse, error) {
-	log.Println("GetTask called with:", req)
-	return s.taskService.GetTask(ctx, req)
-}
-
-func (s *serverAPI) UpdateTask(ctx context.Context, req *ssov1.UpdateTaskRequest) (*ssov1.UpdateTaskResponse, error) {
-	log.Println("UpdateTask called with:", req)
-	return s.taskService.UpdateTask(ctx, req)
-}
-
-func (s *serverAPI) DeleteTask(ctx context.Context, req *ssov1.DeleteTaskRequest) (*ssov1.DeleteTaskResponse, error) {
-	log.Println("DeleteTask called with:", req)
-	return s.taskService.DeleteTask(ctx, req)
-}
-
-
