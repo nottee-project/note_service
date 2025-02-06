@@ -1,7 +1,7 @@
 {
   "env": "local",
   "app_config": {
-    "app_name": "go-note-service",
+    "app_name": "go-task-service",
     "http_server": {
       "port": 8080
     }

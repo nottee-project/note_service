@@ -4,40 +4,52 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
-	models "github.com/nottee-project/note_service/internal/models/note"
+	models "github.com/nottee-project/task_service/internal/models/task"
 )
 
-func (t *NoteHandler) UpdateNote(c echo.Context) error {
-	// userID, ok := c.Get("user_id").(string)
-	// if !ok || userID == "" {
-	// 	return c.JSON(http.StatusUnauthorized, map[string]string{
-	// 		"error": "Unauthorized",
-	// 	})
-	// }
-
-	noteID := c.Param("id")
-	if noteID == "" {
-		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": "Note ID is required",
+func (t *TaskHandler) UpdateTask(c echo.Context) error {
+	userIDStr, ok := c.Get("user_id").(string)
+	if !ok || userIDStr == "" {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"error": "Unauthorized",
 		})
 	}
 
-	var params models.Note
+	userID, err := uuid.Parse(userIDStr)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, map[string]string{
+			"error": "Invalid user ID",
+		})
+	}
+
+	taskID := c.Param("id")
+
+	if taskID == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "Task ID is required",
+		})
+	}
+
+	var params models.Task
 	if err := c.Bind(&params); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{
 			"error": "Invalid request body",
 		})
 	}
 
-	params.Id = noteID
+	params.Id = taskID
+	params.UserId = userID
 
-	note, err := t.NoteSrv.UpdateNote(context.Background(), params)
+	task, err := t.TaskSrv.UpdateTask(context.Background(), params)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
-			"error": "Failed to update note",
+			"error": "Failed to update task",
 		})
 	}
 
-	return c.JSON(http.StatusOK, note)
+	return c.JSON(http.StatusOK, task)
+	//c.Render(http.Status, "template.html", response(eg. task))
+
 }

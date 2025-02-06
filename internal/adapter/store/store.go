@@ -7,12 +7,12 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/pkg/errors"
 
-	"github.com/nottee-project/note_service/internal/config"
+	"github.com/nottee-project/task_service/internal/config"
 )
 
 type Store struct {
 	DB *sqlx.DB
-}    
+}
 
 func New(cfg config.Database) (*Store, error) {
 	dsn := fmt.Sprintf(

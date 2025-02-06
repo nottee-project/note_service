@@ -1,24 +1,24 @@
 package bootstrap
 
 import (
-	"github.com/nottee-project/note_service/internal/config"
-	note_store "github.com/nottee-project/note_service/internal/adapter/store/note"
-	"github.com/nottee-project/note_service/internal/adapter/store"
+	"github.com/nottee-project/task_service/internal/adapter/store"
+	task_store "github.com/nottee-project/task_service/internal/adapter/store/task"
+	"github.com/nottee-project/task_service/internal/config"
+	"github.com/nottee-project/task_service/internal/service/task"
 	"github.com/pkg/errors"
-	"github.com/nottee-project/note_service/internal/service/note"
 )
 
-func CreateNoteService() (*note.NoteService, error) {
+func CreateTaskService() (*task.TaskService, error) {
 	cfg, err := config.NewConfig()
 	if err != nil {
-			return nil, errors.Wrap(err, "CreateConfig")
+		return nil, errors.Wrap(err, "CreateConfig")
 	}
 
 	dbStore, err := store.New(cfg.Database)
 	if err != nil {
-			return nil, err
+		return nil, err
 	}
 
-	noteStore := &note_store.NoteStore{Store: dbStore}
-	return note.New(noteStore)
+	taskStore := &task_store.TaskStore{Store: dbStore}
+	return task.New(taskStore)
 }
